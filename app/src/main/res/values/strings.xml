@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EggTimer</string>
+    <string name="stopButton">STOP!</string>
+    <string name="startButton">START!</string>
+</resources>
