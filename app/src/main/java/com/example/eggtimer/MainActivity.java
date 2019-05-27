@@ -1,6 +1,7 @@
 package com.example.eggtimer;
 
 
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Log.i("Finished", "Time passed out");
                 startButton.setVisibility(View.VISIBLE);
+                MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.horn);
+                mediaPlayer.start();
             }
         }.start();
     }
