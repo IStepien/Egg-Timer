@@ -1,11 +1,13 @@
 package com.example.eggtimer;
 
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.util.Log;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     TextView timeTextView;
     SeekBar seekBar;
+    Button startButton;
+    Button stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,5 +68,24 @@ public class MainActivity extends AppCompatActivity {
         return number <= 9 ? "0" + number : String.valueOf(number);
     }
 
+    public void startTimer(View view) {
+        startButton = findViewById(R.id.startButton);
+        stopButton = findViewById(R.id.stopButton);
+
+        stopButton.setVisibility(View.VISIBLE);
+        startButton.setVisibility(View.INVISIBLE);
+        CountDownTimer countDownTimer = new CountDownTimer(seekBar.getProgress() * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                updateTimer((int) (millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                Log.i("Finished", "Time passed out");
+                startButton.setVisibility(View.VISIBLE);
+            }
+        }.start();
+    }
 
 }
