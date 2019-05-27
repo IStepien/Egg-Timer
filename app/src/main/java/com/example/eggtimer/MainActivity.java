@@ -1,5 +1,6 @@
 package com.example.eggtimer;
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Button startButton = findViewById(R.id.startButton);
         Button stopButton = findViewById(R.id.stopButton);
 
-        int maxTime = 10;
+       final TextView timeTextView = findViewById(R.id.timeTextView);
+
+        int maxTime = 600;
         int startingPosition = 0;
 
         seekBar.setMax(maxTime);
@@ -30,8 +33,13 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.i("info", "progres" + progress);
-                setTimeTextView(progress);
+                Log.i("info", "progress" + progress);
+                int minutes = progress/60;
+                int seconds = progress-(minutes*60);
+
+                timeTextView.setText(checkDigit(minutes)+":"+checkDigit(seconds));
+
+
             }
 
             @Override
@@ -46,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public void setTimeTextView(int progres){
-       TextView timeTextView = findViewById(R.id.timeTextView);
-        timeTextView.setText(String.valueOf(progres));
+    public String checkDigit(int number) {
+        return number <= 9 ? "0" + number : String.valueOf(number);
     }
+
 }
