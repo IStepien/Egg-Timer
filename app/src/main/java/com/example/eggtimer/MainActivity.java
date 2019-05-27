@@ -15,14 +15,18 @@ public class MainActivity extends AppCompatActivity {
 
     TextView timeTextView;
     SeekBar seekBar;
-    Button startButton;
-    Button stopButton;
+
+    Button startButton ;
+    Button stopButton ;
     CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startButton = findViewById(R.id.startButton);
+        stopButton = findViewById(R.id.stopButton);
 
         timeTextView = findViewById(R.id.timeTextView);
         seekBar = findViewById(R.id.seekBar);
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 updateTimer(progress);
-
+                startButton.setVisibility(View.VISIBLE);
 
             }
 
@@ -68,13 +72,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startTimer(View view) {
-        startButton = findViewById(R.id.startButton);
-        stopButton = findViewById(R.id.stopButton);
+        startButton.setVisibility(View.INVISIBLE);
 
         seekBar.setEnabled(false);
 
         stopButton.setVisibility(View.VISIBLE);
-        startButton.setVisibility(View.INVISIBLE);
+
         countDownTimer = new CountDownTimer(seekBar.getProgress() * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -83,11 +86,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                startButton.setVisibility(View.VISIBLE);
+
                 MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.horn);
                 mediaPlayer.start();
                 seekBar.setEnabled(true);
                 seekBar.setProgress(0);
+                startButton.setVisibility(View.INVISIBLE);
+                stopButton.setVisibility(View.INVISIBLE);
             }
         }.start();
     }
