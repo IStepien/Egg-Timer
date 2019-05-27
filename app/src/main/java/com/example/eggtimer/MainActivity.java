@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
     Button startButton;
     Button stopButton;
+    CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.i("info", "progress" + progress);
+
                 updateTimer(progress);
 
 
@@ -73,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
         stopButton = findViewById(R.id.stopButton);
 
+        seekBar.setEnabled(false);
+
         stopButton.setVisibility(View.VISIBLE);
         startButton.setVisibility(View.INVISIBLE);
-        CountDownTimer countDownTimer = new CountDownTimer(seekBar.getProgress() * 1000, 1000) {
+        countDownTimer = new CountDownTimer(seekBar.getProgress() * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 updateTimer((int) (millisUntilFinished / 1000));
@@ -86,8 +89,18 @@ public class MainActivity extends AppCompatActivity {
                 startButton.setVisibility(View.VISIBLE);
                 MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.horn);
                 mediaPlayer.start();
+                seekBar.setEnabled(true);
+                seekBar.setProgress(0);
             }
         }.start();
+    }
+    public void stopTimer(View view){
+        timeTextView.setText("00:00");
+        seekBar.setProgress(0);
+        seekBar.setEnabled(true);
+        countDownTimer.cancel();
+        startButton.setVisibility(View.VISIBLE);
+
     }
 
 }
